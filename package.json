@@ -1,0 +1,48 @@
+{
+  "name": "@ant-design-solid/icons",
+  "version": "1.0.0",
+  "description": "Ant Design Icons for Solid",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "prettier": "prettier -c --write . --cache"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sutras/ant-design-solid-icons.git"
+  },
+  "keywords": [
+    "icons",
+    "ant-design",
+    "solid",
+    "solidjs"
+  ],
+  "author": "wuzhitao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sutras/ant-design-solid-icons/issues"
+  },
+  "homepage": "https://github.com/sutras/ant-design-solid-icons#readme",
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-typescript": "^7.24.7",
+    "@types/node": "^22.5.5",
+    "babel-preset-solid": "^1.8.22",
+    "glob": "^11.0.0",
+    "prettier": "^3.3.3",
+    "solid-devtools": "^0.29.2",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.11",
+    "vite-plugin-solid": "^2.8.2"
+  },
+  "dependencies": {
+    "@ant-design/colors": "^7.1.0",
+    "@ant-design/icons-svg": "^4.4.2",
+    "classnames": "^2.5.1",
+    "solid-js": "^1.8.11"
+  }
+}
