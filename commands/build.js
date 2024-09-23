@@ -23,7 +23,7 @@ async function compileSolid(filePath, source) {
           moduleName: 'solid-js/web',
         },
       ],
-      // ['@babel/preset-typescript'],
+      ['@babel/preset-typescript'],
     ],
     plugins: [],
     ast: false,
@@ -39,21 +39,6 @@ async function compileSolid(filePath, source) {
   return code
 }
 
-async function copyTs() {
-  const files = await glob(srcDir + '/**/*.{ts,tsx}')
-
-  await Promise.all(
-    files.map(async (file) => {
-      const src = path.resolve(process.cwd(), file)
-      const dest = file.replace(srcDir, tempDir)
-      await fs.mkdir(path.dirname(dest), {
-        recursive: true,
-      })
-      await fs.copyFile(src, dest)
-    }),
-  )
-}
-
 async function copyOthers() {
   const files = await glob(srcDir + '/**/*.css')
 
@@ -67,17 +52,26 @@ async function copyOthers() {
       await fs.copyFile(src, dest)
     }),
   )
+
+  const pkgSrc = path.resolve(process.cwd(), 'package.json')
+  await fs.copyFile(pkgSrc, pkgSrc.replace(process.cwd(), libDir))
+
+  const readmeSrc = path.resolve(process.cwd(), 'README.md')
+  await fs.copyFile(readmeSrc, readmeSrc.replace(process.cwd(), libDir))
+
+  const tsconfigSrc = path.resolve(process.cwd(), 'tsconfig.json')
+  await fs.copyFile(tsconfigSrc, tsconfigSrc.replace(process.cwd(), libDir))
 }
 
-async function compileTsx() {
-  const files = await glob('src/lib/**/*.tsx')
+async function compileTs() {
+  const files = await glob(srcDir + '/**/*.{tsx,ts}')
 
   await Promise.all(
     files.map(async (file) => {
       const src = path.resolve(process.cwd(), file)
       const source = (await fs.readFile(src)).toString()
       const compiledSource = await compileSolid(file, source)
-      const dest = file.replace(srcDir, tempDir).replace('.tsx', '.ts')
+      const dest = file.replace(srcDir, libDir).replace(/\.(tsx|ts)/, '.js')
       await fs.mkdir(path.dirname(dest), {
         recursive: true,
       })
@@ -86,9 +80,9 @@ async function compileTsx() {
   )
 }
 
-async function compileTs() {
+async function generateDeclare() {
   const tsconfig = {
-    include: [`${tempDir}/**/*`],
+    include: [`${srcDir}/**/*`],
     compilerOptions: {
       strict: true,
       target: 'ESNext',
@@ -100,6 +94,7 @@ async function compileTs() {
       jsxImportSource: 'solid-js',
       isolatedModules: true,
       declaration: true,
+      emitDeclarationOnly: true,
       outDir: libDir,
     },
   }
@@ -125,24 +120,18 @@ async function compileTs() {
   })
 }
 
-async function copyPkg() {
-  const src = path.resolve(process.cwd(), 'package.json')
-  const dest = src.replace(process.cwd(), libDir)
-  await fs.mkdir(path.dirname(dest), {
-    recursive: true,
-  })
-  await fs.copyFile(src, dest)
-}
-
 async function build() {
   await fs.rm(tempDir, {
     recursive: true,
+    force: true,
   })
-  await copyTs()
+  await fs.rm(libDir, {
+    recursive: true,
+    force: true,
+  })
+  await generateDeclare()
   await compileTs()
-  // await compileTsx()
   await copyOthers()
-  await copyPkg()
 }
 
 build()

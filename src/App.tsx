@@ -12,11 +12,17 @@ import { Dynamic } from 'solid-js/web'
 
 import './index.css'
 
-import * as a from 'solid-js/web'
-
-console.log(a)
+import { setTwoToneColor } from './lib'
 
 export default function App() {
+  const handleClick = () => {
+    const color = Array(3)
+      .fill(0)
+      .map(() => Math.round(Math.random() * 16).toString(16))
+      .join('')
+    setTwoToneColor(`#${color}`)
+  }
+
   return (
     <>
       <SyncOutlined spin />
@@ -26,6 +32,8 @@ export default function App() {
       <SmileTwoTone />
       <HeartTwoTone twoToneColor="#eb2f96" />
       <CheckCircleTwoTone twoToneColor="#52c41a" />
+
+      <button onClick={handleClick}>change twoToneColor</button>
 
       <div class="icon-wrapper">
         <For each={Object.entries(icons)}>

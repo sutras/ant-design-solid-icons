@@ -1,6 +1,6 @@
 {
   "name": "@ant-design-solid/icons",
-  "version": "1.0.0",
+  "version": "0.1.4",
   "description": "Ant Design Icons for Solid",
   "main": "index.js",
   "type": "module",
@@ -9,7 +9,9 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "prettier": "prettier -c --write . --cache"
+    "prettier": "prettier -c --write . --cache",
+    "build:lib": "node ./commands/build.js",
+    "release": "node ./commands/release.js"
   },
   "repository": {
     "type": "git",
@@ -41,7 +43,9 @@
   },
   "dependencies": {
     "@ant-design/colors": "^7.1.0",
-    "@ant-design/icons-svg": "^4.4.2",
+    "@ant-design/icons-svg": "^4.4.2"
+  },
+  "peerDependencies": {
     "classnames": "^2.5.1",
     "solid-js": "^1.8.11"
   }
