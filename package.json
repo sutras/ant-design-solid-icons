@@ -1,6 +1,6 @@
 {
   "name": "@ant-design-solid/icons",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Ant Design Icons for Solid",
   "main": "index.js",
   "type": "module",
@@ -11,7 +11,8 @@
     "serve": "vite preview",
     "prettier": "prettier -c --write . --cache",
     "build:lib": "node ./commands/build.js",
-    "release": "node ./commands/release.js"
+    "release": "node ./commands/release.js",
+    "buildLibAndRelease": "npm run build:lib && npm run release"
   },
   "repository": {
     "type": "git",

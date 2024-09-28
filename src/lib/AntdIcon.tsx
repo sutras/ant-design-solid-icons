@@ -41,7 +41,8 @@ export const AntdIcon = (props: IconComponentProps) => {
     classNames(
       prefixCls,
       {
-        [`${prefixCls}-spin`]: !!props.spin,
+        [`${prefixCls}-${props.icon.name}`]: !!props.icon.name,
+        [`${prefixCls}-spin`]: !!props.spin || props.icon.name === 'loading',
       },
       props.class,
     ),
